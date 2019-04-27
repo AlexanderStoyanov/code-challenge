@@ -28,7 +28,6 @@ export const loadProduct = (productId) => {
         dispatch(request(REQUEST_PRODUCT));
         try {
             let res = await axios.post('http://localhost:3030/product/:id', {productId: productId});
-            console.log(res);
             dispatch(receive(RECEIVE_PRODUCT, res.data));
         } catch (err) {
             dispatch(error(PRODUCT_REQUEST_FAILURE, err.message));

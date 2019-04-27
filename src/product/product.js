@@ -2,8 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class Product extends React.Component {
-
     render() {
+        var product = [];
+        if (this.props.product) {
+            product = this.props.product;
+            product.tags = product.tags.map(function(tag) {
+                return tag + ' ';
+            });
+        }
+
         return (
             <div className="container bgwhite p-t-35 p-b-80">
                 <div className="flex-w flex-sb">
@@ -14,7 +21,7 @@ class Product extends React.Component {
                             <div className="slick3">
                                 <div className="item-slick3" data-thumb="images/thumb-item-01.jpg">
                                     <div className="wrap-pic-w">
-                                        <img src="images/product-detail-01.jpg" alt="IMG-PRODUCT" />
+                                        <img src={product.image} alt="IMG-PRODUCT" />
                                     </div>
                                 </div>
 
@@ -35,22 +42,22 @@ class Product extends React.Component {
 
                     <div className="w-size14 p-t-30 respon5">
                         <h4 className="product-detail-name m-text16 p-b-13">
-                            Boxy T-Shirt with Roll Sleeve Detail
-				</h4>
+                            {product.name}
+                        </h4>
 
                         <span className="m-text17">
-                            $22
-				</span>
+                            ${product.price}
+                        </span>
 
                         <p className="s-text8 p-t-10">
                             Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
-				</p>
+                                </p>
 
                         <div className="p-t-33 p-b-60">
                             <div className="flex-m flex-w p-b-10">
                                 <div className="s-text15 w-size15 t-center">
                                     Size
-						</div>
+                                        </div>
 
                                 <div className="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
                                     <select className="selection-2" name="size">
@@ -66,7 +73,7 @@ class Product extends React.Component {
                             <div className="flex-m flex-w">
                                 <div className="s-text15 w-size15 t-center">
                                     Color
-						</div>
+                                        </div>
 
                                 <div className="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
                                     <select className="selection-2" name="color">
@@ -97,57 +104,55 @@ class Product extends React.Component {
 
                                         <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
                                             Add to Cart
-								</button>
+                                                </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="p-b-45">
-                            <span className="s-text8 m-r-35">SKU: MUG-01</span>
-                            <span className="s-text8">Categories: Mug, Design</span>
+                            <span className="s-text8 m-r-35">SKU: {product.guid}</span>
+                            <span className="s-text8">Categories: {product.tags}</span>
                         </div>
 
 
                         <div className="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
                             <h5 className="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
                                 Description
-						<i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+                                        <i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
                                 <i className="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
                             </h5>
 
                             <div className="dropdown-content dis-none p-t-15 p-b-23">
-                                <p className="s-text8">
-                                    Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
-						</p>
+                                <p className="s-text8">{product.about}</p>
                             </div>
                         </div>
 
                         <div className="wrap-dropdown-content bo7 p-t-15 p-b-14">
                             <h5 className="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
                                 Additional information
-						<i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+                                        <i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
                                 <i className="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
                             </h5>
 
                             <div className="dropdown-content dis-none p-t-15 p-b-23">
                                 <p className="s-text8">
                                     Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
-						</p>
+                                        </p>
                             </div>
                         </div>
 
                         <div className="wrap-dropdown-content bo7 p-t-15 p-b-14">
                             <h5 className="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
                                 Reviews (0)
-						<i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+                                        <i className="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
                                 <i className="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
                             </h5>
 
                             <div className="dropdown-content dis-none p-t-15 p-b-23">
                                 <p className="s-text8">
                                     Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
-						</p>
+                                        </p>
                             </div>
                         </div>
                     </div>
@@ -159,16 +164,8 @@ class Product extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        product: state.product,
+        product: state.products.product,
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        // loadProduct: async () => {
-        //     await dispatch(loadProduct());
-        // },
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Product);
+export default connect(mapStateToProps)(Product);

@@ -24,7 +24,7 @@ router.post('/product/:id', (req, res) => {
   }, (err, response, body) => {
     if (!err && response.statusCode === 200) {
       const product = body.find(entry => entry._id === productId)
-      res.json({ payload: product });
+      res.json(product);
     }
   });
 });
