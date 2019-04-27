@@ -2,7 +2,7 @@ import {
     REQUEST_PRODUCTS,
     RECEIVE_PRODUCTS,
     PRODUCTS_REQUEST_FAILURE
-} from 'productsAction';
+} from './productsAction';
 
 const initialState = {
     loading: false,
