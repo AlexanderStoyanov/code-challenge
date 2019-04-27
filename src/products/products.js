@@ -1,20 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadProducts } from './productsAction';
+import { loadProducts, loadProduct } from './productsAction';
 
 import Block2 from './block2';
 
 class Products extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-        }
+        this.onClick = this.onClick.bind(this);
     }
 
     //load products after component mounted
     componentDidMount() {
         this.props.loadProducts();
+    }
+
+    async onClick(event) {
+        await this.props.loadProduct(event.target.getAttribute('data-id'));
     }
 
     render() {
@@ -29,8 +31,7 @@ class Products extends React.Component {
                     name={product.name}
                     image={product.image}
                     price={product.price}
-                    about={product.about}
-                    tags={product.tags}
+                    onClick={this.onClick}
                 />;
             });
         }
@@ -211,6 +212,9 @@ function mapDispatchToProps(dispatch) {
     return {
         loadProducts: async () => {
             await dispatch(loadProducts());
+        },
+        loadProduct: async (productId) => {
+            await dispatch(loadProduct(productId));
         },
     }
 }

@@ -10,20 +10,21 @@ router.get('/products', (req, res) => {
     json: true
   }, (err, response, body) => {
     if (!err && response.statusCode === 200) {
-      //console.log(body);
       res.json(body);
     }
   });
 });
 
 
-router.get('/products/:id', (req, res) => {
+router.post('/product/:id', (req, res) => {
+  const { productId } = req.body;
   request({
     url: url,
     json: true
   }, (err, response, body) => {
     if (!err && response.statusCode === 200) {
-      //res.render('product-detail', { body: body });
+      const product = body.find(entry => entry._id === productId)
+      res.json({ payload: product });
     }
   });
 });

@@ -1,13 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Block2 extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    
     render() {
-        const { _id, name, image, price, about, tags } = this.props;
-
+        const { _id, name, image, price, onClick } = this.props;
+        //href={'product/' + _id}
         return (
             <div className="col-sm-12 col-md-6 col-lg-4 p-b-50">
                 <div className="block2">
@@ -29,9 +26,12 @@ class Block2 extends React.Component {
                     </div>
 
                     <div className="block2-txt p-t-20">
-                        <a href="product-detail.html" className="block2-name dis-block s-text3 p-b-5">
-                            {name}
-									</a>
+                        <Link 
+                            to={'product/' + _id}
+                            className="block2-name dis-block s-text3 p-b-5" 
+                            data-id={_id}
+                            onClick={onClick}
+                        >{name}</Link>
 
                         <span className="block2-price m-text6 p-r-5">
                             ${price}
