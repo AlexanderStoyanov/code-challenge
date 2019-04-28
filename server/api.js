@@ -1,33 +1,35 @@
 const express = require('express');
-const request = require('request');
+const request = require('request-promise');
 
 const router = express.Router();
-const url = 'https://next.json-generator.com/api/json/get/EkzBIUWNL'
+const url = 'https://next.json-generator.com/api/json/get/EkzBIUWNL';
 
-
-router.get('/products', (req, res) => {
-  request({
+const getProducts = () => {
+  return request({
     url: url,
     json: true
-  }, (err, response, body) => {
-    if (!err && response.statusCode === 200) {
-      res.json(body);
-    }
   });
+}
+
+router.get('/products', async (req, res) => {
+  const products = await getProducts();
+  if (products) {
+    res.json(products);
+  } else {
+    throw new Error('/products failed to load');
+  }
 });
 
 
-router.post('/product/:id', (req, res) => {
+router.post('/product/:id', async (req, res) => {
+  const products = await getProducts();
   const { productId } = req.body;
-  request({
-    url: url,
-    json: true
-  }, (err, response, body) => {
-    if (!err && response.statusCode === 200) {
-      const product = body.find(entry => entry._id === productId)
-      res.json(product);
-    }
-  });
+  if (products && productId) {
+    const product = products.find(entry => entry._id === productId)
+    res.json(product);
+  } else {
+    throw new Error('/product/:id failed to load');
+  }
 });
 
 
