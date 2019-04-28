@@ -9,6 +9,8 @@ class Products extends React.Component {
         super(props);
         this.state = {
             priceRange: null,
+            sorting: null,
+            searchText: '',
         }
 
         this.onChange = this.onChange.bind(this);
@@ -21,7 +23,13 @@ class Products extends React.Component {
     }
 
     onChange(event) {
-        this.setState({ priceRange: event.target.value });
+        if (event.target.id === 'sorting') {
+            this.setState({ sorting: event.target.value });
+        } else if (event.target.id === 'price-range') {
+            this.setState({ priceRange: event.target.value.split('-') });
+        } else {
+            this.setState({ [event.target.name]: event.target.value });
+        }
     }
 
     onClick(event) {
@@ -29,11 +37,14 @@ class Products extends React.Component {
     }
 
     render() {
+        if (this.props.products.products) {
+            var size = Object.keys(this.props.products.products).length;
+        }
 
-        //var block2Entries;
         //null check
         if (this.props.products.products) {
             const { products } = this.props;
+            //populate products
             var block2Entries = products.products.map(product => {
                 return <Block2
                     key={product._id}
@@ -46,9 +57,23 @@ class Products extends React.Component {
             });
         }
 
-        if (this.state.priceRange !== null) {
-            var range = this.state.priceRange.split('-');
-            block2Entries = block2Entries.filter(product => product.props.price > parseFloat(range[0]) && product.props.price < parseFloat(range[1]));
+        //Filter by price range
+        if (this.state.priceRange && this.state.priceRange[0] !== 'Price') {
+            block2Entries = block2Entries.filter(product => product.props.price > parseFloat(this.state.priceRange[0]) && product.props.price < parseFloat(this.state.priceRange[1]));
+        }
+
+        //Filter by price order
+        if (this.state.sorting && this.state.sorting !== 'Default Sorting') {
+            this.state.sorting === 'lth' ? block2Entries.sort((a, b) => {
+                return a.props.price - b.props.price;
+            }) : block2Entries.sort((a, b) => {
+                return b.props.price - a.props.price;
+            })
+        }
+
+        //Search products based on name
+        if (this.state.searchText) {
+            block2Entries = block2Entries.filter(product => product.props.name.toLowerCase().includes(this.state.searchText.toLowerCase()));
         }
 
         return (
@@ -163,7 +188,13 @@ class Products extends React.Component {
                                 </div>
 
                                 <div className="search-product pos-relative bo4 of-hidden">
-                                    <input className="s-text7 size6 p-l-23 p-r-50" type="text" name="search-product" placeholder="Se/arch Products..." />
+                                    <input className="s-text7 size6 p-l-23 p-r-50"
+                                        type="text" 
+                                        placeholder="Search Products..."
+                                        onChange={this.onChange}
+                                        value={this.state.searchText}
+                                        name="searchText"
+                                    />
 
                                     <button className="flex-c-m size5 ab-r-m color2 color0-hov trans-0-4">
                                         <i className="fs-12 fa fa-search" aria-hidden="true"></i>
@@ -176,28 +207,28 @@ class Products extends React.Component {
                             <div className="flex-sb-m flex-w p-b-35">
                                 <div className="flex-w">
                                     <div className="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-                                        <select className="selection-2" name="sorting">
+                                        <select className="selection-2" id="sorting" name="sorting" onChange={this.onChange}>
                                             <option>Default Sorting</option>
                                             <option>Popularity</option>
-                                            <option>Price: low to high</option>
-                                            <option>Price: high to low</option>
+                                            <option value="lth">Price: low to high</option>
+                                            <option value="htl">Price: high to low</option>
                                         </select>
                                     </div>
 
                                     <div className="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-                                        <select className="selection-2" name="sorting" onChange={this.onChange}>
+                                        <select className="selection-2" id="price-range" name="sorting" onChange={this.onChange}>
                                             <option>Price</option>
                                             <option value="0-50">$0.00 - $50.00</option>
                                             <option value="50-100">$50.00 - $100.00</option>
                                             <option value="100-150">$100.00 - $150.00</option>
                                             <option value="150-200">$150.00 - $200.00</option>
-                                            <option value="200">$200.00+</option>
+                                            <option value="200-99999">$200.00+</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <span className="s-text8 p-t-5 p-b-5">
-                                    Showing 1–12 of 16 results
+                                    Showing 1–{size} of {size} results
 						</span>
                             </div>
 
