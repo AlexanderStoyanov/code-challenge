@@ -11,7 +11,7 @@ class Products extends React.Component {
             priceRange: null,
             sorting: null,
             searchText: '',
-            sliderMaxPrice: 0,
+            sliderMaxPrice: 500,
         }
 
         this.onChange = this.onChange.bind(this);
@@ -73,7 +73,7 @@ class Products extends React.Component {
         }
 
         //Fliter by price slider
-        if (this.state.sliderMaxPrice !== 0) {
+        if (this.state.sliderMaxPrice !== 500) {
             block2Entries = block2Entries.filter(product => product.props.price < parseFloat(this.state.sliderMaxPrice));
         }
 
