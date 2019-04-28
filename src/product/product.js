@@ -2,6 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class Product extends React.Component {
+
+    //Scroll to the top when navigated to product page
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     render() {
         var product = [];
 
