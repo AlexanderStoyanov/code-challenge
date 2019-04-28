@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 class Product extends React.Component {
     render() {
         var product = [];
+
+        //Separate tags with spaces
         if (this.props.product) {
             product = this.props.product;
             product.tags = product.tags.map(function(tag) {
@@ -162,6 +164,8 @@ class Product extends React.Component {
     }
 }
 
+
+//Redux functions
 function mapStateToProps(state) {
     return {
         product: state.products.product,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadProducts, loadProduct } from './productsAction';
 
+import { loadProducts, loadProduct } from './productsAction';
 import Block2 from './block2';
 
 class Products extends React.Component {
@@ -255,6 +255,7 @@ class Products extends React.Component {
     }
 }
 
+//Redux functions
 function mapStateToProps(state) {
     return {
         products: state.products,
@@ -263,11 +264,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        loadProducts: async () => {
-            await dispatch(loadProducts());
+        loadProducts: () => {
+            dispatch(loadProducts());
         },
-        loadProduct: async (productId) => {
-            await dispatch(loadProduct(productId));
+        loadProduct: (productId) => {
+            dispatch(loadProduct(productId));
         },
     }
 }

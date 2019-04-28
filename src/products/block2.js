@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 class Block2 extends React.Component {
     render() {
         const { _id, name, image, price, onClick } = this.props;
-        //href={'product/' + _id}
+        
         return (
             <div className="col-sm-12 col-md-6 col-lg-4 p-b-50">
                 <div className="block2">

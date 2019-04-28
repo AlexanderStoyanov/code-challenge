@@ -14,6 +14,7 @@ const initialState = {
     error: null
 };
 
+//Redux reducer that listens to actions and changes the state accordingly
 export default (state = initialState, action = {}) => {
     switch (action.type) {
         case REQUEST_PRODUCTS:

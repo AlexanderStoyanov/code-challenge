@@ -3,6 +3,8 @@ import request from '../common/request';
 import receive from '../common/receive';
 import error from '../common/error';
 
+//Redux actions that react to events within react components
+
 //Loads products @init
 export const REQUEST_PRODUCTS = 'REQUEST_PRODUCTS';
 export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';
