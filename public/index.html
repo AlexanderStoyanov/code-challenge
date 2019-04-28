@@ -105,7 +105,6 @@
   <script type="text/javascript">
     /*[ No ui ]
       ===========================================================*/
-    $(document).ready(function() {
       var filterBar = document.getElementById('filter-bar');
 
     noUiSlider.create(filterBar, {
@@ -125,7 +124,6 @@
     filterBar.noUiSlider.on('update', function (values, handle) {
       skipValues[handle].innerHTML = Math.round(values[handle]);
     });
-  });
   </script>
   <!--===============================================================================================-->
   <script src="%PUBLIC_URL%/js/main.js"></script>

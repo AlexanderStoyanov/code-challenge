@@ -11,6 +11,7 @@ class Products extends React.Component {
             priceRange: null,
             sorting: null,
             searchText: '',
+            sliderMaxPrice: 0,
         }
 
         this.onChange = this.onChange.bind(this);
@@ -71,10 +72,16 @@ class Products extends React.Component {
             })
         }
 
+        //Fliter by price slider
+        if (this.state.sliderMaxPrice !== 0) {
+            block2Entries = block2Entries.filter(product => product.props.price < parseFloat(this.state.sliderMaxPrice));
+        }
+
         //Search products based on name
         if (this.state.searchText) {
             block2Entries = block2Entries.filter(product => product.props.name.toLowerCase().includes(this.state.searchText.toLowerCase()));
         }
+
 
         return (
             <section className="bgwhite p-t-55 p-b-65">
@@ -128,7 +135,7 @@ class Products extends React.Component {
 							</div>
 
                                     <div className="wra-filter-bar">
-                                        <div id="filter-bar"></div>
+                                        <input type="range" min="0" max="500" name="sliderMaxPrice" value={this.state.sliderMaxPrice} onChange={this.onChange} />
                                     </div>
 
                                     <div className="flex-sb-m flex-w p-t-16">
@@ -139,7 +146,7 @@ class Products extends React.Component {
                                         </div>
 
                                         <div className="s-text3 p-t-10 p-b-10">
-                                            Range: $<span id="value-lower">610</span> - $<span id="value-upper">980</span>
+                                            Range: $<span id="value-lower">0</span> - $<span id="value-upper">{this.state.sliderMaxPrice}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -189,7 +196,7 @@ class Products extends React.Component {
 
                                 <div className="search-product pos-relative bo4 of-hidden">
                                     <input className="s-text7 size6 p-l-23 p-r-50"
-                                        type="text" 
+                                        type="text"
                                         placeholder="Search Products..."
                                         onChange={this.onChange}
                                         value={this.state.searchText}
