@@ -7,6 +7,11 @@ import Block2 from './block2';
 class Products extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            priceRange: null,
+        }
+
+        this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
     }
 
@@ -15,17 +20,22 @@ class Products extends React.Component {
         this.props.loadProducts();
     }
 
-    async onClick(event) {
-        await this.props.loadProduct(event.target.getAttribute('data-id'));
+    onChange(event) {
+        this.setState({ priceRange: event.target.value });
+    }
+
+    onClick(event) {
+        this.props.loadProduct(event.target.getAttribute('data-id'));
     }
 
     render() {
 
+        //var block2Entries;
         //null check
         if (this.props.products.products) {
             const { products } = this.props;
             var block2Entries = products.products.map(product => {
-                return <Block2 
+                return <Block2
                     key={product._id}
                     _id={product._id}
                     name={product.name}
@@ -34,6 +44,11 @@ class Products extends React.Component {
                     onClick={this.onClick}
                 />;
             });
+        }
+
+        if (this.state.priceRange !== null) {
+            var range = this.state.priceRange.split('-');
+            block2Entries = block2Entries.filter(product => product.props.price > parseFloat(range[0]) && product.props.price < parseFloat(range[1]));
         }
 
         return (
@@ -170,13 +185,13 @@ class Products extends React.Component {
                                     </div>
 
                                     <div className="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-                                        <select className="selection-2" name="sorting">
+                                        <select className="selection-2" name="sorting" onChange={this.onChange}>
                                             <option>Price</option>
-                                            <option>$0.00 - $50.00</option>
-                                            <option>$50.00 - $100.00</option>
-                                            <option>$100.00 - $150.00</option>
-                                            <option>$150.00 - $200.00</option>
-                                            <option>$200.00+</option>
+                                            <option value="0-50">$0.00 - $50.00</option>
+                                            <option value="50-100">$50.00 - $100.00</option>
+                                            <option value="100-150">$100.00 - $150.00</option>
+                                            <option value="150-200">$150.00 - $200.00</option>
+                                            <option value="200">$200.00+</option>
                                         </select>
                                     </div>
                                 </div>

@@ -4,6 +4,7 @@ const request = require('request');
 const router = express.Router();
 const url = 'https://next.json-generator.com/api/json/get/EkzBIUWNL'
 
+
 router.get('/products', (req, res) => {
   request({
     url: url,
